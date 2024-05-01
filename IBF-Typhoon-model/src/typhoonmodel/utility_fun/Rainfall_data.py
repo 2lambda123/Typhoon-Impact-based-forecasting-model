@@ -54,7 +54,7 @@ def download_rainfall_nomads(Input_folder, path, Alternative_data_point,no_data_
     except IndexError:
         # If list index out of range then it means that there are no files available,
         # use tomorrow's date instead
-        logger.warning(f"No rainfall files available today, using yesterday's date instead")
+        logger.warning("No rainfall files available today, using yesterday's date instead")
         get_grib_files(url2, path, rainfall_path)
 
     for hour in RAINFALL_TIME_STEP:
