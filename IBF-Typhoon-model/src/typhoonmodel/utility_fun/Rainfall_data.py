@@ -1,7 +1,6 @@
 import os
 import urllib.request
 import urllib.error
-import requests
 import logging
 from pathlib import Path
 import shutil
@@ -12,6 +11,7 @@ import rasterio
 from rasterstats import zonal_stats
 import geopandas as gpd
 import pandas as pd
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -133,7 +133,7 @@ def get_grib_files(url, path, rainfall_path, use_cache=True):
 
 
 def listFD(url):
-    page = requests.get(url, timeout=60).text
+    page = safe_requests.get(url, timeout=60).text
     soup = BeautifulSoup(page, 'html.parser')
     return [url + node.get('href')
             for node in soup.find_all('a')

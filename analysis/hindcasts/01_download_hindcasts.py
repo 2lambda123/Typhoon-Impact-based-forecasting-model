@@ -6,6 +6,7 @@ from pathlib import Path
 from dateutil import rrule
 
 from constants import save_dir
+from security import safe_requests
 
 save_dir = Path(save_dir)
 
@@ -39,7 +40,7 @@ for date in date_list:
         if verbose:
             print(f'{file} already exists')
         continue
-    req = requests.get(filename, cookies = ret.cookies, allow_redirects=True, timeout=60)
+    req = safe_requests.get(filename, cookies = ret.cookies, allow_redirects=True, timeout=60)
     if req.status_code != 200:
         if verbose:
             print(f'{file} invalid URL')
