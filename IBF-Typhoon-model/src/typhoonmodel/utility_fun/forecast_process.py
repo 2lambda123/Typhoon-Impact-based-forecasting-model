@@ -86,7 +86,7 @@ class Forecast:
         except:
             traceback.print_exc()
             #logger.warning(f'Rainfall download failed, performing download in R script')
-            logger.info(f'Rainfall download failed, performing download in R script')
+            logger.info('Rainfall download failed, performing download in R script')
             rainfall_error=True
             self.rainfall_data=[]
         ###### download UCL data
@@ -97,7 +97,7 @@ class Forecast:
             ucl_data.process_ucl_data(self.main_path,
             self.Input_folder,self.UCL_USERNAME,self.UCL_PASSWORD)
         except:
-            logger.info(f'UCL download failed')        
+            logger.info('UCL download failed')        
 
 
         ##Create grid points to calculate Winfield
@@ -304,13 +304,13 @@ class Forecast:
                 try:
                     p = subprocess.check_call(["Rscript", "run_model_V2.R", str(rainfall_error)])
                 except subprocess.CalledProcessError as e:
-                    logger.error(f'failed to excute R sript')
+                    logger.error('failed to excute R sript')
                     raise ValueError(str(e))
             elif platform == "win32": #if OS is windows edit the path for Rscript
                 try:
                     p = subprocess.check_call(["C:/Program Files/R/R-4.1.0/bin/Rscript", "run_model_V2.R", str(rainfall_error)])
                 except subprocess.CalledProcessError as e:
-                    logger.error(f'failed to excute R sript')
+                    logger.error('failed to excute R sript')
                     raise ValueError(str(e))
                     
             data_filenames = list(Path(Output_folder).glob('*.csv'))
