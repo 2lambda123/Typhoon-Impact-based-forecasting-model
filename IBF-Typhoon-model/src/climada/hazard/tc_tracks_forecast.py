@@ -238,7 +238,7 @@ class TCForecast(TCTracks):
                 list1.append(line)
          
 
-        list1=[li for li in list1 if li.startswith(" ") or li.startswith("##") ]
+        list1=[li for li in list1 if li.startswith((" ", "##")) ]
         list2=[]
         for items in list1:
             if items.startswith("######"):
