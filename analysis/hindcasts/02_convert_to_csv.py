@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 
 from constants import save_dir
+import defusedxml.ElementTree
 
 save_dir = Path(save_dir)
 
@@ -20,7 +21,7 @@ for cname in ["local", "international"]:
 def xml2csv(filename):
     print(f"{filename}")
     try:
-        tree = ET.parse(filename)
+        tree = defusedxml.ElementTree.parse(filename)
     except ET.ParseError:
         print("Error with file, skipping")
         return

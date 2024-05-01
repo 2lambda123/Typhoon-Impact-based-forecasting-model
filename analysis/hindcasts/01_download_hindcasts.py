@@ -6,6 +6,7 @@ from pathlib import Path
 from dateutil import rrule
 
 from constants import save_dir
+from security import safe_requests
 
 save_dir = Path(save_dir)
 
@@ -15,7 +16,7 @@ pswd = input('password: ')
 values = {'email' : email, 'passwd' : pswd, 'action' : 'login'}
 login_url = 'https://rda.ucar.edu/cgi-bin/login'
 
-ret = requests.post(login_url, data=values)
+ret = requests.post(login_url, data=values, timeout=60)
 if ret.status_code != 200:
     print('Bad Authentication')
     print(ret.text)
@@ -39,7 +40,7 @@ for date in date_list:
         if verbose:
             print(f'{file} already exists')
         continue
-    req = requests.get(filename, cookies = ret.cookies, allow_redirects=True)
+    req = safe_requests.get(filename, cookies = ret.cookies, allow_redirects=True, timeout=60)
     if req.status_code != 200:
         if verbose:
             print(f'{file} invalid URL')
