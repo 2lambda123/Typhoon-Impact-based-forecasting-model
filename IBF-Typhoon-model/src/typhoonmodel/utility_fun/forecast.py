@@ -82,7 +82,7 @@ class Forecast:
         except:
             traceback.print_exc()
             #logger.warning(f'Rainfall download failed, performing download in R script')
-            logger.info(f'Rainfall download failed, performing download in R script')
+            logger.info('Rainfall download failed, performing download in R script')
             rainfall_error=True
         ###### download UCL data
           
@@ -92,7 +92,7 @@ class Forecast:
             ucl_data.process_ucl_data(self.main_path,
             self.Input_folder,self.UCL_USERNAME,self.UCL_PASSWORD)
         except:
-            logger.info(f'UCL download failed')        
+            logger.info('UCL download failed')        
 
 
         ##Create grid points to calculate Winfield
