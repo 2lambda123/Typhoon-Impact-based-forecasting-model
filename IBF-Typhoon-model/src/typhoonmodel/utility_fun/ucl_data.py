@@ -83,7 +83,7 @@ def download_ucl_data(path,Input_folder,uCL_USERNAME,uCL_PASSWORD):
     
     #path_input=os.path.join(Input_folder,'UCL/') #Input_folder
     # parser = etree.XMLParser(recover=True) 
-    parser2 = ET2.XMLParser(recover=True)#lxml is better in handling error in xml files 
+    parser2 = ET2.XMLParser(recover=True, resolve_entities=False)#lxml is better in handling error in xml files 
     kml_files=[]
     fname=open(os.path.join(path,"forecast/batch_ucl_download.bat"),'w')  
     fname.write(':: runfile'+'\n')

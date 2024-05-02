@@ -14,7 +14,7 @@ import lxml.etree as ET2
 import pandas as pd
 from datetime import datetime
 def jtcw_data(Input_folder):
-    parser = ET2.XMLParser(recover=True)#
+    parser = ET2.XMLParser(recover=True, resolve_entities=False)#
     output=[] 
     index_list=[' WARNING POSITION:',' 12 HRS, VALID AT:',' 24 HRS, VALID AT:',' 36 HRS, VALID AT:',' 48 HRS, VALID AT:',' 72 HRS, VALID AT:',' 96 HRS, VALID AT:',' 120 HRS, VALID AT:']
     index_list_id=[]
