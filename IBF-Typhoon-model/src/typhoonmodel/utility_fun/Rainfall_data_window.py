@@ -152,7 +152,7 @@ def get_grib_files(url, path, rainfall_path, use_cache=True):
 
 
 def listFD(url):
-    page = requests.get(url).text
+    page = requests.get(url, timeout=60).text
     soup = BeautifulSoup(page, 'html.parser')
     return [url + node.get('href')
             for node in soup.find_all('a')

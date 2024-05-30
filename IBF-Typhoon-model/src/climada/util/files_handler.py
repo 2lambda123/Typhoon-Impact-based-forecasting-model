@@ -83,7 +83,7 @@ def download_file(url, download_dir=None, overwrite=True):
             raise FileExistsError(f"cannot download to {file_path}")
 
     try:
-        req_file = requests.get(url, stream=True)
+        req_file = requests.get(url, stream=True, timeout=60)
     except IOError as ioe:
         raise type(ioe)('Check URL and internet connection: ' + str(ioe)) from ioe
     if req_file.status_code < 200 or req_file.status_code > 299:

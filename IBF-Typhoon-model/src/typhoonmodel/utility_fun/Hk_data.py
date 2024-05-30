@@ -11,10 +11,10 @@ from os.path import isfile, join
 from sys import platform
 
 def download_hk(Input_folder):
-    HKfeed =  BeautifulSoup(requests.get('https://www.weather.gov.hk/wxinfo/currwx/tc_list.xml').content,parser=parser,features="lxml")#'html.parser')
+    HKfeed =  BeautifulSoup(requests.get('https://www.weather.gov.hk/wxinfo/currwx/tc_list.xml', timeout=60).content,parser=parser,features="lxml")#'html.parser')
     trac_data=[]
     try:
-        HK_track =  BeautifulSoup(requests.get(HKfeed.find('tropicalcycloneurl').text).content,parser=parser,features="lxml")#'html.parser')    
+        HK_track =  BeautifulSoup(requests.get(HKfeed.find('tropicalcycloneurl').text, timeout=60).content,parser=parser,features="lxml")#'html.parser')    
         for WeatherReport in HK_track.find_all('weatherreport'):
             for forecast in WeatherReport.find_all('pastinformation'):
                 l2=[forecast.find('index').text,forecast.find('latitude').text,forecast.find('longitude').text,forecast.find('time').text]

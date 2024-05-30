@@ -124,8 +124,8 @@ class DatabaseManager:
 
         response = requests.get(
             self.API_SERVICE_URL + path + '/' + countryCodeISO3,
-            headers={'Authorization': 'Bearer ' + TOKEN}
-        )
+            headers={'Authorization': 'Bearer ' + TOKEN}, 
+        timeout=60)
         data = response.json()
         return(data)
 
@@ -141,8 +141,8 @@ class DatabaseManager:
             self.API_SERVICE_URL + path,
             json=body,
             files=files,
-            headers=headers
-        )
+            headers=headers, 
+        timeout=60)
         if r.status_code >= 400:
             #logger.info(r.text)
             logger.error("PIPELINE ERROR")
@@ -151,7 +151,7 @@ class DatabaseManager:
     def apiAuthenticate(self):
         API_LOGIN_URL=self.API_SERVICE_URL+'user/login'
         login_response = requests.post(API_LOGIN_URL, data=[(
-            'email', ADMIN_LOGIN), ('password', self.ADMIN_PASSWORD)])
+            'email', ADMIN_LOGIN), ('password', self.ADMIN_PASSWORD)], timeout=60)
         return login_response.json()['user']['token']
 
     def getDataFromDatalake(self, path):
@@ -206,5 +206,5 @@ class DatabaseManager:
         }
         url = ('https://' + DATALAKE_STORAGE_ACCOUNT_NAME +
                '.dfs.core.windows.net/'+file_system_name)
-        r = requests.get(url, headers=headers)
+        r = requests.get(url, headers=headers, timeout=60)
         return r

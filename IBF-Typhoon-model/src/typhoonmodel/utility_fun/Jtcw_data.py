@@ -20,7 +20,7 @@ def jtcw_data(Input_folder):
     index_list_id=[]
     index_list_wd=[]
     
-    jtwc_content = BeautifulSoup(requests.get('https://www.metoc.navy.mil/jtwc/rss/jtwc.rss').content,parser=parser,features="lxml")#'html.parser')
+    jtwc_content = BeautifulSoup(requests.get('https://www.metoc.navy.mil/jtwc/rss/jtwc.rss', timeout=60).content,parser=parser,features="lxml")#'html.parser')
     try:    
         for channel in jtwc_content.find_all('channel'):
             for item in channel.find_all('item'):
@@ -29,7 +29,7 @@ def jtcw_data(Input_folder):
                         if href_li.text =='TC Warning Text ':
                             output.append(href_li['href'])        
         output=[event for event in output if event.split('/')[-1][0:2]=='wp']
-        jtwc_content = BeautifulSoup(requests.get(output[0]).content,'html.parser')#parser=parser,features="lxml")#'html.parser')
+        jtwc_content = BeautifulSoup(requests.get(output[0], timeout=60).content,'html.parser')#parser=parser,features="lxml")#'html.parser')
         jtwc_=re.sub(' +', ' ', jtwc_content.text)
         listt=jtwc_.split('\r\n')
         storm_name=[word.split(' ')[4][1:-1] for word in listt if word.startswith('1. TROPICAL STORM')]

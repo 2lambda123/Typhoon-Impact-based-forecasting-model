@@ -184,7 +184,7 @@ class Client():
         NoResult
             if the response status code is different from 200
         """
-        page = requests.get(url, **kwargs)
+        page = requests.get(url, **kwargs, timeout=60)
         if page.status_code == 200:
             return json.loads(page.content.decode())
         raise Client.NoResult(page.content.decode())
@@ -346,7 +346,7 @@ class Client():
             path /= unquote(url.split('/')[-1])
         if path.is_file() and not replace:
             raise FileExistsError(path)
-        with requests.get(url, stream=True) as stream:
+        with requests.get(url, stream=True, timeout=60) as stream:
             stream.raise_for_status()
             with open(path, 'wb') as dump:
                 for chunk in stream.iter_content(chunk_size=self.chunk_size):
