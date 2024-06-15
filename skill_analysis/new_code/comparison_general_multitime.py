@@ -17,7 +17,6 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
-import random
 from netCDF4 import Dataset
 import itertools
 import geopy.distance
@@ -25,6 +24,7 @@ import geopandas as gpd
 import pickle
 
 from functions import *
+import secrets
 
 
 # ## Create pandaframe from xml files
@@ -1208,9 +1208,9 @@ selection_ordered = [x[1] for x in selection_ordered]
 for i,s in enumerate(selection_ordered):
     rects[str(s)] = ax.boxplot(err[str(s)], positions = x + width*positions[i], widths = width*0.7, patch_artist=True)
     
-    r = random.random()
-    b = random.random()
-    g = random.random()
+    r = secrets.SystemRandom().random()
+    b = secrets.SystemRandom().random()
+    g = secrets.SystemRandom().random()
     c = (r, g, b)
     c = colors[i]
     

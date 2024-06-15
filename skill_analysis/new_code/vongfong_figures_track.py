@@ -17,9 +17,9 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
-import random
 from netCDF4 import Dataset
 import itertools
+import secrets
 
 
 # ## Create pandaframe from xml files
@@ -1135,9 +1135,9 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 
 
 # Plot model mean 
-r = random.random()
-b = random.random()
-g = random.random()
+r = secrets.SystemRandom().random()
+b = secrets.SystemRandom().random()
+g = secrets.SystemRandom().random()
 color = (r, g, b)
 i = 0
 color = colors[i]
@@ -1214,9 +1214,9 @@ for i,t in enumerate(times_total[ind_times_total-1:ind_times_total+2]):
         ind_lt_max = np.where(lt==time_limit)[0][0]
         lons = f.variables['storm forecast longitude'][:ind_lt_max+1]
         lats = f.variables['storm forecast latitude'][:ind_lt_max+1]
-        r = random.random()
-        b = random.random()
-        g = random.random()
+        r = secrets.SystemRandom().random()
+        b = secrets.SystemRandom().random()
+        g = secrets.SystemRandom().random()
         color = (r, g, b)
         
         if plot_ucl == 'y':
@@ -1247,9 +1247,9 @@ delay = (day - start_day_hour[0])*24 + hour - start_day_hour[1]
 
 lons = obs['track'][:,1]
 lats = obs['track'][:,0]
-r = random.random()
-b = random.random()
-g = random.random()
+r = secrets.SystemRandom().random()
+b = secrets.SystemRandom().random()
+g = secrets.SystemRandom().random()
 color = (r, g, b)
 i += 1
 color = colors[i]
@@ -1319,9 +1319,9 @@ if 'lat_min' in globals():
 # Loop over models
 for model_num in range(len(results)):
     
-    r = random.random()
-    b = random.random()
-    g = random.random()
+    r = secrets.SystemRandom().random()
+    b = secrets.SystemRandom().random()
+    g = secrets.SystemRandom().random()
     color = (r, g, b)
     
     # Initial points relative to analysis
@@ -1402,9 +1402,9 @@ for model_num in range(len(results)):
     
 # UCL data
 
-r = random.random()
-b = random.random()
-g = random.random()
+r = secrets.SystemRandom().random()
+b = secrets.SystemRandom().random()
+g = secrets.SystemRandom().random()
 color = (r, g, b)
 
 for i, t in enumerate(times):
@@ -1421,9 +1421,9 @@ for i, t in enumerate(times):
     
 # Observed data
 
-r = random.random()
-b = random.random()
-g = random.random()
+r = secrets.SystemRandom().random()
+b = secrets.SystemRandom().random()
+g = secrets.SystemRandom().random()
 color = (r, g, b)
 
 for t in times:

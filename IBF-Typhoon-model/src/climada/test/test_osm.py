@@ -21,12 +21,12 @@ Integration Test for open_street_map.py and 3 time consuming unit tests
 
 import math
 import unittest
-import random
 import geopandas
 
 from climada import CONFIG
 from climada.entity import Exposures
 from climada.entity.exposures import open_street_map as OSM
+import secrets
 
 DATA_DIR = CONFIG.test_data.dir()
 
@@ -61,7 +61,7 @@ class TestOpenStreetMapModule(unittest.TestCase):
             self.assertIsInstance(exposure_high_47_8, Exposures)
             self.assertEqual(len(exposure_high_47_8.gdf.columns), 8)
             self.assertGreater(
-                exposure_high_47_8.gdf.iloc[random.randint(0, len(exposure_high_47_8.gdf))].value,
+                exposure_high_47_8.gdf.iloc[secrets.SystemRandom().randint(0, len(exposure_high_47_8.gdf))].value,
                 0)
 
     def test_make_osmexposure(self):
@@ -74,14 +74,14 @@ class TestOpenStreetMapModule(unittest.TestCase):
         self.assertEqual(len(buildings_47_8_default.gdf.columns), 12)
         self.assertEqual(
             buildings_47_8_default.gdf.loc[
-                random.randint(0, len(buildings_47_8_default.gdf))].geometry.type,
+                secrets.SystemRandom().randint(0, len(buildings_47_8_default.gdf))].geometry.type,
             "Point")
         self.assertGreater(
-            buildings_47_8_default.gdf.loc[random.randint(0, len(buildings_47_8_default.gdf))].value,
+            buildings_47_8_default.gdf.loc[secrets.SystemRandom().randint(0, len(buildings_47_8_default.gdf))].value,
             0)
         self.assertGreater(
             buildings_47_8_default.gdf.loc[
-                random.randint(0, len(buildings_47_8_default.gdf))].projected_area,
+                secrets.SystemRandom().randint(0, len(buildings_47_8_default.gdf))].projected_area,
             0)
 
         # With LitPop values
@@ -92,14 +92,14 @@ class TestOpenStreetMapModule(unittest.TestCase):
         self.assertIsInstance(buildings_47_8_LitPop, Exposures)
         self.assertEqual(len(buildings_47_8_LitPop.gdf.columns), 12)
         self.assertEqual(
-            buildings_47_8_LitPop.gdf.loc[random.randint(0, len(buildings_47_8_LitPop.gdf))].geometry.type,
+            buildings_47_8_LitPop.gdf.loc[secrets.SystemRandom().randint(0, len(buildings_47_8_LitPop.gdf))].geometry.type,
             "Point")
         self.assertGreater(
-            buildings_47_8_LitPop.gdf.loc[random.randint(0, len(buildings_47_8_LitPop.gdf))].value,
+            buildings_47_8_LitPop.gdf.loc[secrets.SystemRandom().randint(0, len(buildings_47_8_LitPop.gdf))].value,
             0)
         self.assertGreater(
             buildings_47_8_LitPop.gdf.loc[
-                random.randint(0, len(buildings_47_8_LitPop.gdf))].projected_area,
+                secrets.SystemRandom().randint(0, len(buildings_47_8_LitPop.gdf))].projected_area,
             0)
 
         for mode in ['default', 'LitPop']:
@@ -151,7 +151,7 @@ class TestOSMlongUnitTests(unittest.TestCase):
         High_Value_Area_gdf = OSM._assign_values_exposure(building_gdf, mode,
                                                           country, reference_year=2016)
         self.assertGreater(
-            High_Value_Area_gdf.loc[random.randint(0, len(High_Value_Area_gdf))].value,
+            High_Value_Area_gdf.loc[secrets.SystemRandom().randint(0, len(High_Value_Area_gdf))].value,
             0)
 
 # Execute Tests
