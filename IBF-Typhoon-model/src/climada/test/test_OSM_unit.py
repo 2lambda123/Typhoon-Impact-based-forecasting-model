@@ -20,13 +20,13 @@ Unit Tests on Open Street Map exposures.
 """
 
 import unittest
-import random
 
 import pandas as pd
 import geopandas
 
 from climada import CONFIG
 from climada.entity.exposures import open_street_map as OSM
+import secrets
 
 DATA_DIR = CONFIG.test_data.dir()
 
@@ -143,9 +143,9 @@ class TestOSMFunctions(unittest.TestCase):
         building_path = DATA_DIR.joinpath('buildings_47_8.shp')
 
         building_gdf = OSM._get_midpoints(building_path)
-        self.assertEqual(building_gdf.loc[random.randint(0, len(building_gdf))].geometry.type,
+        self.assertEqual(building_gdf.loc[secrets.SystemRandom().randint(0, len(building_gdf))].geometry.type,
                          'Point')
-        self.assertGreater(building_gdf.loc[random.randint(0, len(building_gdf))].projected_area,
+        self.assertGreater(building_gdf.loc[secrets.SystemRandom().randint(0, len(building_gdf))].projected_area,
                            0)
 
     def test_assign_values_exposure(self):
@@ -160,7 +160,7 @@ class TestOSMFunctions(unittest.TestCase):
         # Execute Function
         High_Value_Area_gdf = OSM._assign_values_exposure(building_gdf, mode, country)
         self.assertGreater(
-            High_Value_Area_gdf.loc[random.randint(0, len(High_Value_Area_gdf))].value,
+            High_Value_Area_gdf.loc[secrets.SystemRandom().randint(0, len(High_Value_Area_gdf))].value,
             0)
 
 # Execute Tests

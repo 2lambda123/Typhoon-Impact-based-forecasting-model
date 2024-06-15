@@ -17,11 +17,12 @@
 # In[20]:
 
 
+import secrets
+
 get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
 
 import numpy as np
-import random
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
@@ -74,7 +75,6 @@ import eli5
 from eli5.sklearn import PermutationImportance
 from sklearn.inspection import permutation_importance
 import xgboost as xgb
-import random
 import pickle
 import openpyxl
 from sklearn.feature_selection import SequentialFeatureSelector
@@ -83,7 +83,6 @@ from sklearn.feature_selection import RFECV
 import pickle
 from sklearn.linear_model import LinearRegression
 import geopandas as gpd
-import random
 import importlib
 
 
@@ -112,13 +111,12 @@ def splitting_train_test(df):
 
 def unweighted_random(y_train, y_test):
     options = y_train.value_counts(normalize=True)
-    y_pred = random.choices(population=list(options.index), k=len(y_test))
+    y_pred = secrets.SystemRandom().choices(population=list(options.index), k=len(y_test))
     return y_pred
 
 def weighted_random(y_train, y_test):
     options = y_train.value_counts()
-    y_pred = random.choices(
-        population=list(options.index), weights=list(options.values), k=len(y_test)
+    y_pred = secrets.SystemRandom().choices(population=list(options.index), weights=list(options.values), k=len(y_test)
     )
     return y_pred
 
