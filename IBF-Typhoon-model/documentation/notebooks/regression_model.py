@@ -92,6 +92,23 @@ import importlib
 
 
 def splitting_train_test(df):
+    """Splits the input DataFrame into train and test sets based on unique
+    typhoon values.
+
+    It splits the input DataFrame into train and test sets based on unique
+    typhoon values. Each test set contains data for a single typhoon, while
+    the train set contains data for all other typhoons.
+
+    Args:
+        df (DataFrame): Input DataFrame containing typhoon data.
+
+    Returns:
+        tuple: A tuple containing two lists - the train set list and the test set list.
+            The train set list contains DataFrames with data for all typhoons except
+            the one in the corresponding test set.
+            The test set list contains DataFrames with data for a single typhoon.
+    """
+
 
     # To save the train and test sets
     df_train_list = []
@@ -110,11 +127,38 @@ def splitting_train_test(df):
 
 
 def unweighted_random(y_train, y_test):
+    """Generate random predictions based on the distribution of y_train.
+
+    This function generates random predictions for the test set y_test based
+    on the distribution of the training set y_train.
+
+    Args:
+        y_train (pandas Series): The target values of the training set.
+        y_test (pandas Series): The target values of the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts(normalize=True)
     y_pred = secrets.SystemRandom().choices(population=list(options.index), k=len(y_test))
     return y_pred
 
 def weighted_random(y_train, y_test):
+    """Generate random predictions based on the weighted distribution of
+    y_train values.
+
+    This function generates random predictions for the test set based on the
+    weighted distribution of values in the training set y_train.
+
+    Args:
+        y_train (pandas Series): The target values from the training set.
+        y_test (pandas Series): The target values from the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts()
     y_pred = secrets.SystemRandom().choices(population=list(options.index), weights=list(options.values), k=len(y_test)
     )
@@ -221,6 +265,24 @@ combined_input_data=combined_input_data[combined_input_data.typhoon.isin(typhoon
 
 
 def set_zeros(x):
+    """Replace missing values with zero for records with low windspeed and
+    rainfall.
+
+    This function takes a list x containing wind speed, rainfall, and damage
+    values. It checks if the damage value is not null, and returns the
+    damage value. If the damage value is null, it checks if the wind speed
+    or rainfall exceeds certain thresholds. If the wind speed or rainfall
+    exceeds the thresholds, it returns the damage value. If the wind speed
+    is below a calculated threshold based on rainfall and maximum wind
+    speed, it returns 0. Otherwise, it returns NaN.
+
+    Args:
+        x (list): A list containing wind speed, rainfall, and damage values.
+
+    Returns:
+        int or float: The processed value based on the conditions.
+    """
+
     x_max = 25
     y_max = 50
     
@@ -280,6 +342,18 @@ np.unique(combined_input_data.typhoon)
 
 
 def cubeic(x):
+    """Calculate the cube of a given number.
+
+    This function takes a number as input and calculates the cube of that
+    number.
+
+    Args:
+        x (int, float): The number for which cube needs to be calculated.
+
+    Returns:
+        int, float: The cube of the input number.
+    """
+
     #x=float(x)
     value=x*x*x
     return value
@@ -780,6 +854,19 @@ for value in (zip(*list(train_dm.values()))):
 train["predicted"]=train_dml
 
 def wind_check(x):
+    """Check wind damage based on wind speed and damage value.
+
+    This function takes in a list 'x' containing wind speed and damage
+    value. It checks the wind speed and damage value to determine the final
+    damage value.
+
+    Args:
+        x (list): A list containing wind speed and damage value.
+
+    Returns:
+        int: The final damage value based on wind speed and damage.
+    """
+
     v_max = x[0]  
     damage = x[1]
     if v_max < 22: ### remove prediction below windspeed 80km/h 
