@@ -34,7 +34,17 @@ class TestOSMFunctions(unittest.TestCase):
     """Test OSM Class methods"""
 
     def test_osm_api_query(self):
-        """test _osm_api_query within get_features_OSM function"""
+        """        Test the _osm_api_query function within the get_features_OSM method.
+
+        This function tests the _osm_api_query function by providing a bounding
+        box and an item to query. It then checks if the results contain nodes
+        from ways, ways, and relations.
+
+        Args:
+            bbox (list): A list containing the bounding box coordinates [min_lat, min_lon,
+                max_lat, max_lon].
+            item (str): The item to query in the OSM API.
+        """
         bbox = [47.2, 8.03, 47.3, 8.07]
         item = 'landuse=forest'
         result_NodesFromWays, result_NodesWaysFromRels = OSM._osm_api_query(item, bbox)
@@ -43,7 +53,18 @@ class TestOSMFunctions(unittest.TestCase):
         self.assertGreater(len(result_NodesWaysFromRels.relations), 0)
 
     def test_format_shape_osm(self):
-        """test _format_shape_osm function within get_features_OSM function:"""
+        """        Test the _format_shape_osm function within the get_features_OSM
+        function.
+
+        This function tests the _format_shape_osm function by providing input
+        parameters such as bbox and item, then executing the function to be
+        tested. It checks that shapes were found both from relations and from
+        way/nodes query. It also verifies that the geometry row exists and
+        contains polygons/multipolygons.
+
+        Args:
+            self: The instance of the test class.
+        """
         # define input parameters
         bbox = [47.2, 8.03, 47.3, 8.07]
         item = 'landuse=forest'
@@ -67,7 +88,15 @@ class TestOSMFunctions(unittest.TestCase):
             ].iloc[-1].geometry.type, 'MultiPolygon')
 
     def test_combine_dfs_osm(self):
-        """test _combine_dfs_osm function within get_features_OSM function:"""
+        """        Test the _combine_dfs_osm function within the get_features_OSM function.
+
+        This function tests the internal function _combine_dfs_osm by simulating
+        the process of combining dataframes obtained from querying OpenStreetMap
+        API with specific types and bounding box coordinates.
+
+        Args:
+            self: Instance of the test class.
+        """
         # define input parameters
         types = {'landuse=forest', 'waterway'}
         bbox = [47.2, 8.03, 47.3, 8.07]
@@ -99,7 +128,12 @@ class TestOSMFunctions(unittest.TestCase):
         self.assertNotIn('LineString', OSM_features_gdf_combined.geometry.type)
 
     def test_makeUnion(self):
-        """test makeUnion function within get_highValueArea function"""
+        """        Test the makeUnion function within the get_highValueArea function.
+
+        This function reads a GeoDataFrame from a shapefile and then executes
+        the _makeUnion function. It asserts that the type of the resulting union
+        is 'MultiPolygon' and that it is valid.
+        """
         gdf_all = geopandas.read_file(DATA_DIR.joinpath('OSM_features_47_8.shp'))
 
         # Execute function
@@ -138,7 +172,15 @@ class TestOSMFunctions(unittest.TestCase):
 #        self.assertTrue(math.isclose(sum(exp_sub_high.value), sum(exp_sub.value), rel_tol=0.1))
 
     def test_get_midpoints(self):
-        """test _get_midpoints within make_osmexposure function"""
+        """        Test the _get_midpoints function within the make_osmexposure function.
+
+        This test function checks the functionality of the _get_midpoints
+        function by loading building data from a specified path and verifying
+        properties of the resulting GeoDataFrame.
+
+        Args:
+            building_path (str): The path to the building shapefile.
+        """
         # Define and load parameters:
         building_path = DATA_DIR.joinpath('buildings_47_8.shp')
 
@@ -149,7 +191,13 @@ class TestOSMFunctions(unittest.TestCase):
                            0)
 
     def test_assign_values_exposure(self):
-        """test _assign_values_exposure within make_osmexposure function"""
+        """        Test the _assign_values_exposure function within the make_osmexposure
+        function.
+
+        This function tests the _assign_values_exposure function by defining and
+        loading parameters, executing the function, and asserting that the
+        output has a value greater than 0.
+        """
         # Define and load parameters:
         # function tested previously
         building_gdf = OSM._get_midpoints(DATA_DIR.joinpath('buildings_47_8.shp'))
