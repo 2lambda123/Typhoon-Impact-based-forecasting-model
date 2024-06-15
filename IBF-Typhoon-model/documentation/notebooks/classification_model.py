@@ -92,6 +92,18 @@ import secrets
 
 
 def binary_damage_class(x):
+    """Determine the binary damage class based on the input damage value.
+
+    This function takes a damage value as input and assigns a binary class
+    based on a threshold of 10.
+
+    Args:
+        x (list): A list containing the damage value.
+
+    Returns:
+        int: Binary class value (1 if damage > 10, 0 otherwise).
+    """
+
     damage = x[0]   
     if damage > 10:
         value = 1
@@ -101,6 +113,24 @@ def binary_damage_class(x):
 
 
 def splitting_train_test(df):
+    """Splits the input DataFrame into train and test sets based on unique
+    typhoon values.
+
+    This function splits the input DataFrame into train and test sets based
+    on unique typhoon values. It creates separate train and test sets for
+    each typhoon with more than one occurrence in the input DataFrame.
+
+    Args:
+        df (DataFrame): Input DataFrame containing typhoon data.
+
+    Returns:
+        tuple: A tuple containing two lists - the train set list and the test set list.
+            The train set list contains DataFrames excluding data for each unique
+            typhoon.
+            The test set list contains DataFrames with data only for each unique
+            typhoon.
+    """
+
 
     # To save the train and test sets
     df_train_list = []
@@ -118,11 +148,39 @@ def splitting_train_test(df):
     return df_train_list, df_test_list
 
 def unweighted_random(y_train, y_test):
+    """Generate random predictions for the test set based on the distribution
+    of the training set labels.
+
+    This function generates random predictions for the test set by sampling
+    from the unique labels in the training set based on their distribution.
+
+    Args:
+        y_train (pandas Series): The labels from the training set.
+        y_test (pandas Series): The labels from the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts(normalize=True)
     y_pred = secrets.SystemRandom().choices(population=list(options.index), k=len(y_test))
     return y_pred
 
 def weighted_random(y_train, y_test):
+    """Generate random predictions based on the weighted distribution of
+    y_train values.
+
+    This function generates random predictions for the test set based on the
+    weighted distribution of values in the training set.
+
+    Args:
+        y_train (pandas Series): The target values from the training set.
+        y_test (pandas Series): The target values from the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts()
     y_pred = secrets.SystemRandom().choices(population=list(options.index), weights=list(options.values), k=len(y_test)
     )
@@ -516,11 +574,39 @@ df_predicted_xgb_binary.to_csv(path, index=False)
 
 
 def unweighted_random(y_train, y_test):
+    """Generate random predictions for the test set based on the distribution
+    of the training set labels.
+
+    This function generates random predictions for the test set by sampling
+    from the distribution of labels in the training set.
+
+    Args:
+        y_train (pandas Series): The labels of the training set.
+        y_test (pandas Series): The labels of the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts(normalize=True)
     y_pred = secrets.SystemRandom().choices(population=list(options.index), k=len(y_test))
     return y_pred
 
 def weighted_random(y_train, y_test):
+    """Generate random predictions based on the weighted distribution of
+    y_train values.
+
+    This function generates random predictions for the test set based on the
+    weighted distribution of values in the training set.
+
+    Args:
+        y_train (pandas Series): The target values from the training set.
+        y_test (pandas Series): The target values from the test set.
+
+    Returns:
+        list: A list of randomly generated predictions for the test set.
+    """
+
     options = y_train.value_counts()
     y_pred = secrets.SystemRandom().choices(population=list(options.index), weights=list(options.values), k=len(y_test)
     )

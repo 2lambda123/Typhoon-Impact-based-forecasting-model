@@ -32,7 +32,15 @@ DATA_DIR = CONFIG.test_data.dir()
 
 class TestOpenStreetMapModule(unittest.TestCase):
     def test_get_features_osm(self):
-        """test get_features_osm"""
+        """        Test the function get_features_osm.
+
+        This function tests the get_features_osm function by providing a
+        bounding box, tags, data directory, and check_plot parameter. It asserts
+        the instance type of the returned GeoDataFrame, checks for specific
+        geometry types, and verifies the presence of certain items in the
+        GeoDataFrame. Finally, it asserts the number of columns in the
+        GeoDataFrame.
+        """
         Low_Value_gdf_47_8 = OSM.get_features_OSM([47.2, 8.0, 47.3, 8.07],
                                                   {'waterway', 'landuse=forest'},
                                                   DATA_DIR, check_plot=0)
@@ -43,7 +51,14 @@ class TestOpenStreetMapModule(unittest.TestCase):
         self.assertEqual(len(Low_Value_gdf_47_8.columns), 6)
 
     def test_get_highValueArea(self):
-        """test get_highValueArea"""
+        """        Test the function get_highValueArea.
+
+        This function tests the get_highValueArea function by providing a
+        bounding box coordinates, a data directory path, a shapefile path, and a
+        check_plot parameter. It then asserts if the returned GeoDataFrame has
+        the expected minimum y and maximum x values within a certain tolerance,
+        and if the returned object is an instance of GeoDataFrame.
+        """
         High_Value_gdf_47_8 = OSM.get_highValueArea([47.2, 8.0, 47.3, 8.07], DATA_DIR,
                                                     DATA_DIR.joinpath('OSM_features_47_8.shp'),
                                                     check_plot=0)
@@ -52,7 +67,12 @@ class TestOpenStreetMapModule(unittest.TestCase):
         self.assertIsInstance(High_Value_gdf_47_8, geopandas.GeoDataFrame)
 
     def test_get_osmstencil_litpop(self):
-        """test for get_osmstencil_litpop"""
+        """        Test the function get_osmstencil_litpop.
+
+        This function tests the get_osmstencil_litpop function for different
+        modes of operation. It calls the function with specific parameters and
+        asserts the expected outcomes.
+        """
         for mode in ['proportional', 'nearest', 'even']:
             exposure_high_47_8 = OSM.get_osmstencil_litpop(
                 [47.2, 8.0, 47.3, 8.07], 'CHE', mode,
@@ -65,7 +85,15 @@ class TestOpenStreetMapModule(unittest.TestCase):
                 0)
 
     def test_make_osmexposure(self):
-        """test for make_osmexposure"""
+        """        Test the functionality of the make_osmexposure method in the OSM class.
+
+        This test function checks the output of the make_osmexposure method for
+        two different modes: 1. Default mode with CHF 5400/m2 values. 2. LitPop
+        mode with specific country and reference year.
+
+        Args:
+            self: Instance of the test class.
+        """
         # With default 5400 Chf / m2 values
         buildings_47_8_default = OSM.make_osmexposure(
             DATA_DIR.joinpath('buildings_47_8.shp'),
@@ -109,7 +137,15 @@ class TestOpenStreetMapModule(unittest.TestCase):
 class TestOSMlongUnitTests(unittest.TestCase):
 
     def test_get_litpop_bbox(self):
-        """test _get_litpop_bbox within get_osmstencil_litpop function"""
+        """        Test the _get_litpop_bbox function within the get_osmstencil_litpop
+        function.
+
+        This function tests the _get_litpop_bbox function by providing a country
+        code, a GeoDataFrame representing high value areas, and a reference
+        year. It then asserts that the latitude and longitude values of the
+        resulting GeoDataFrame subset are close to the bounds of the high value
+        area GeoDataFrame.
+        """
         # Define and load parameters
         country = 'CHE'
         highValueArea = geopandas.read_file(DATA_DIR.joinpath('High_Value_Area_47_8.shp'))
@@ -121,7 +157,13 @@ class TestOSMlongUnitTests(unittest.TestCase):
             math.isclose(max(exp_sub.gdf.longitude), highValueArea.bounds.maxx, rel_tol=1e-2))
 
     def test_split_exposure_highlow(self):
-        """test _split_exposure_highlow within get_osmstencil_litpop function"""
+        """        Test the _split_exposure_highlow function within the
+        get_osmstencil_litpop function.
+
+        This function tests the _split_exposure_highlow function by executing it
+        with different modes and checking the results against the expected
+        values.
+        """
         # Define and load parameters:
         country = 'CHE'  # this takes too long for unit test probably
         highValueArea = geopandas.read_file(DATA_DIR.joinpath('High_Value_Area_47_8.shp'))
@@ -141,7 +183,16 @@ class TestOSMlongUnitTests(unittest.TestCase):
         exp_sub_high.check()
 
     def test_assign_values_exposure(self):
-        """test _assign_values_exposure within make_osmexposure function"""
+        """        Test the _assign_values_exposure function within the make_osmexposure
+        function.
+
+        This function tests the _assign_values_exposure function by providing
+        input parameters and checking the output High_Value_Area_gdf for values
+        greater than 0.
+
+        Args:
+            self: Instance of the test class.
+        """
         # Define and load parameters:
         # function tested previously
         building_gdf = OSM._get_midpoints(DATA_DIR.joinpath('buildings_47_8.shp'))
